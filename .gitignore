@@ -1,0 +1,7 @@
+__pycache__
+env/
+stroop_test_data/
+events/
+dist/
+env/
+build/

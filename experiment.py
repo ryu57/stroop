@@ -2,43 +2,8 @@ import expyriment
 import os
 import pandas as pd
 import time
-from googleapiclient.discovery import build
-from google.oauth2 import service_account
-import json
 
-# Upload API
-SCOPES = ['https://www.googleapis.com/auth/drive.file']
-SERVICE_ACCOUNT_INFO = """
-{
-  "type": ,
-  "project_id": ,
-  "private_key_id": "",
-  "private_key": "",
-  "client_email": 
-  "client_id": ,
-  "auth_uri": ,
-  "token_uri": ,
-  "auth_provider_x509_cert_url": ,
-  "client_x509_cert_url": ,
-  "universe_domain": 
-}
-"""
 
-def authenticate():
-    service_account_info = json.loads(SERVICE_ACCOUNT_INFO)
-    creds = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
-    return creds
-
-def upload(file_name, file_path):
-    creds = authenticate()
-    service = build("drive", "v3", credentials=creds)
-
-    file_metadata = {
-        "name" : file_name,
-        "parents" : ["1C2qWOHV5ls3XRAi-JxCSK3LTYpiozcXl"]
-    }
-
-    file = service.files().create(body=file_metadata, media_body=file_path, supportsAllDrives=True).execute()
 
 directory_path = "stroop_test_data/"
 os.makedirs(directory_path, exist_ok=True)
@@ -481,19 +446,7 @@ def run_experiment():
     final_file_name = f"stroop_data_{name}.csv"
     df_pdata.to_csv(final_file_directory + final_file_name, index=False)
 
-    choice = "no"
-    while choice != "y" and choice != "Y" and choice != "n" and choice != "N":
-        choice = expyriment.io.TextInput("Upload Data? (y/n)",
-                                         message_text_size=30,
-                                         user_text_size=30).get()
-        if choice == "y" or choice == "Y":
-            instruction_header = expyriment.stimuli.TextLine("Uploading...", text_size=60,
-                                                             position=(0, 240))
-            instruction_header.plot(instruction_canvas)
-            instruction_canvas.present()
-            instruction_canvas.unload()
 
-            upload(final_file_name, final_file_directory + final_file_name)
 
     # Instruction 10
     instruction_header = expyriment.stimuli.TextLine("Please Remain At Your Seat",
