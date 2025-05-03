@@ -8,7 +8,7 @@ a = Analysis(
     ['Stroop.py'],
     pathex=[],
     binaries=[],
-    datas=[("C:/Users/Portul/.conda/envs/env3.7/Lib/site-packages/expyriment","expyriment")],
+    datas=[("C:/Users/Ricky/miniconda3/envs/py37/Lib/site-packages/expyriment","expyriment")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
